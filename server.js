@@ -40,6 +40,10 @@ app.use("/api/user", users);
 // app.use("/api/ads", ads);
 
 
+// Send message for default URL
+app.get('/', (req, res) => res.send('Success Bgst !'));
+
+
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => console.log(`Server up and running on port ${port} !`));
