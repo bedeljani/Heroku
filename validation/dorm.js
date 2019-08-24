@@ -1,7 +1,7 @@
 const Validator = require("validator");
 const isEmpty = require("is-empty");
 
-module.exports = function validateAdsInput(data) {
+module.exports = function validateDormInput(data) {
   let errors = {};
 
   // Convert empty fields to an empty string so we can use validator functions
@@ -39,9 +39,9 @@ module.exports = function validateAdsInput(data) {
     errors.long = "City field is required";
   }
   //Image checks
-  if (Validator.isEmpty(data.image)) {
-    errors.long = "Image field is required";
-  }
+  // if (Validator.is(data.image)) {
+  //   errors.long = "Image field is required";
+  // }
   //Room checks
   if (Validator.isEmpty(data.room)) {
     errors.long = "Image field is required";

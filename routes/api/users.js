@@ -3,7 +3,8 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
-const passport = require("passport");
+
+
 
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
@@ -12,9 +13,8 @@ const validateLoginInput = require("../../validation/login");
 // Load User model
 const User = require("../../models/User");
 
-// @route POST api/users/register
-// @desc Register user
-// @access Public
+// route POST api/users/register
+
 router.post("/register", (req, res) => {
   // Form validation
 
@@ -22,7 +22,7 @@ router.post("/register", (req, res) => {
 
   // Check validation
   if (!isValid) {
-    return res.status(469).json(errors);
+    return res.status(400).json(errors);
   }
 
   User.findOne({ email: req.body.email }).then(user => {
@@ -50,9 +50,7 @@ router.post("/register", (req, res) => {
   });
 });
 
-// @route POST api/users/login
-// @desc Login user and return JWT token
-// @access Public
+// route POST api/users/login
 router.post("/login", (req, res) => {
   // Form validation
 
@@ -73,9 +71,9 @@ router.post("/login", (req, res) => {
       return res.status(404).json({ emailnotfound: "Email not found" });
     }
 
-    // Check password
-    bcrypt.compare(password, user.password).then(isMatch => {
-      if (isMatch) {
+        // Check password
+        bcrypt.compare(password, user.password).then(isMatch => {
+          if (isMatch) {
         // User matched
         // Create JWT Payload
         const payload = {
@@ -105,5 +103,42 @@ router.post("/login", (req, res) => {
     });
   });
 });
+
+//Check to make sure header is not undefined, if so, return Forbidden (403)
+const checkToken = (req, res, next) => {
+  const header = req.headers['authorization'];
+
+  if(typeof header !== 'undefined') {
+      const bearer = header.split(' ');
+      const token = bearer[1];
+
+      req.token = token;
+      next();
+  } else {
+      //If header is undefined return Forbidden (403)
+      res.sendStatus(403)
+  }
+}
+
+//This is a protected route 
+ router.get('/data',checkToken ,(req, res) => {
+  //verify the JWT token generated for the user
+  jwt.verify(req.token, keys.secretOrKey, (err, authorizedData) => {
+      if(err){
+          //If error send Forbidden (403)
+          console.log('ERROR: Could not connect to the protected route');
+          res.sendStatus(403);
+      } else {
+          //If token is successfully verified, we can send the autorized data 
+          res.json({
+              message: 'Successful log in',
+              authorizedData
+          });
+          console.log('SUCCESS: Connected to protected route');
+      }
+  })
+});
+
+
 
 module.exports = router;

@@ -3,15 +3,16 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const users = require("./routes/api/users");
-const ads = require("./routes/api/ads")
+const dorm = require("./routes/api/dorm")
 const app = express();
-
+var path = require('path');
 // Bodyparser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
   })
 );
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 // DB Config
@@ -36,8 +37,8 @@ app.use(passport.initialize());
 require("./config/passport")(passport);
 
 // Routes
-app.use("/api/user", users);
-// app.use("/api/ads", ads);
+app.use("/api/users", users);
+app.use("/api/dorm", dorm );
 
 
 // Send message for default URL
