@@ -47,7 +47,7 @@ const checkToken = (req, res, next) => {
   const upload = multer({storage: storage});
 
 
-router.post('/dorms', upload.single('file') ,checkToken ,  dorm.create)
+router.post('/dorms', upload.array('files', 20) ,checkToken ,  dorm.create)
 router.get('/dorms', dorm.findAll)
 
 module.exports = router;

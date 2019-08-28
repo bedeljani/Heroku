@@ -30,10 +30,8 @@ const DormSchema = new Schema({
         
      
 
-  facilites: [{
-    name: String},
-    {icon: String}
-  ],
+  facilites: [String]
+  ,
 
   price : {
     type: Number

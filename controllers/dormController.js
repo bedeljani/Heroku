@@ -1,5 +1,6 @@
 const Dorm = require('../models/Dorm');
 validateDormInput = require('../validation/dorm')
+const jwt = require('jsonwebtoken')
 
 exports.create = (req, res) =>{
     Dorm.create()
@@ -8,7 +9,8 @@ exports.create = (req, res) =>{
          if (!isValid) {
             return res.status(400).json(errors);
           }
-    
+          console.log(req.files)
+          //const token = 
     const newDorm = new Dorm
               (
                 {
@@ -16,12 +18,13 @@ exports.create = (req, res) =>{
                     address : req.body.address,
                     lat : req.body.lat,
                     long : req.body.long,
-                    image: req.file.filename, 
+                    image: req.files.map((i) => (i.filename)), 
                     city : req.body.city,  
                     roomNumber: req.body.roomNumber,
                     roomType: req.body.roomType,
                     width: req.body.width,
                     length: req.body.length, 
+                    facilites : req.body.facilites.split(', ').map((i)=>(i)),
                     desc : req.body.desc, 
                     price : req.body.price   
                 }
