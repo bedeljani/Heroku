@@ -20,6 +20,7 @@
     "express": "^4.16.4",
     "formidable": "^1.2.1",
     "fs": "0.0.1-security",
+    "fs-extra": "^8.1.0",
     "gridfs": "^1.0.0",
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^8.3.0",
@@ -32,5 +33,5 @@
   "engines": {
     "node": ">= 10.16.3",
     "npm": ">= 6.9.0"
-}
+  }
 }

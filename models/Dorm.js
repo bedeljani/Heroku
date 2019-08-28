@@ -3,58 +3,51 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const DormSchema = new Schema({
+  
   name: {
     type: String,
-    
-  },
+    },
+
   address: {
     type: String,
-    
-  },
-  lat: {
-    type: Number,
-    
-  },
-  long: {
-    type: Number,
-    
-  },
-
-  city: {
-    type: String,
-    
-  },
-
-  image: {
-    type: String,
     },
-  
-  room: {
-    type: Number,
-    
+
+  lat : String,
+  long : String,
+
+
+  city: String,     
+
+  image: [String],
+
+  desc: { type: String,
   },
   
-  desc: {
-    type: String,
-    
+    roomNumber: Number,
+    roomType: String,
+    width: Number,
+    length: Number,
+        
+     
+
+  facilites: [{
+    name: String},
+    {icon: String}
+  ],
+
+  price : {
+    type: Number
   },
-  type: {
-    type: String,
-    
-  },
-  
-  price: {
-    type: Number,
-    
-  },
-  // kodepos: {
-  //   type : Number
-  // },
   
   date: {
     type: Date,
     default: Date.now
-  }
+  },
+
+  user: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }]
  });
 
 

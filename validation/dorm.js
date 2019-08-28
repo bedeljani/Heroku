@@ -5,58 +5,69 @@ module.exports = function validateDormInput(data) {
   let errors = {};
 
   // Convert empty fields to an empty string so we can use validator functions
-  data.name = !isEmpty(data.name) ? data.name : "";
-  data.address = !isEmpty(data.address) ? data.address : "";
-  data.lat  = !isEmpty(data.lat) ? data.lat : "";
-  data.long = !isEmpty(data.long) ? data.long : "";
-  data.city = !isEmpty(data.city) ? data.city : "";
-  data.image = !isEmpty(data.image) ? data.image : "";
-  data.room = !isEmpty(data.room) ? data.room : "";
-  data.desc = !isEmpty(data.desc) ? data.desc : "";
-  data.type = !isEmpty(data.type) ? data.type : "";
-  data.price = !isEmpty(data.price) ? data.price : "";
+  if (
+  data.name == !isEmpty(data.name) &&
+  data.address == !isEmpty(data.address) &&
+  data.lat  == !isEmpty(data.lat) &&
+  data.long == !isEmpty(data.long) &&
+  data.city == !isEmpty(data.city) &&
+  data.roomNumber == !isEmpty(data.roomNumber) &&
+  data.roomType == !isEmpty(data.roomType) &&
+  data.width == !isEmpty(data.width) &&
+  data.length == !isEmpty(data.length) &&
+  data.desc == !isEmpty(data.desc) &&
+  data.price == !isEmpty(data.price)
+  ){
+    message = "Please insert field"
+  }
 
   // Name checks
-  if (Validator.isEmpty(data.name)) {
-    errors.name = "Name field is required";
+  else if (Validator.isEmpty(data.name)) {
+    errors.message = "Name field is required";
   }
 
   // Address checks
-  if (Validator.isEmpty(data.address)) {
-    errors.address = "Address field is required";
+  else if (Validator.isEmpty(data.address)) {
+    errors.message = "Address field is required";
   } 
 
   // lat checks
-  if (Validator.isEmpty(data.lat)) {
-    errors.lat = "Latitude field is required";
+  else if (Validator.isEmpty(data.lat)) {
+    errors.message = "Latitude field is required";
   }
   // Long checks
-  if (Validator.isEmpty(data.long)) {
-    errors.long = "Longitude field is required";
+  else if (Validator.isEmpty(data.long)) {
+    errors.message = "Longitude field is required";
   }
   // City checks
-  if (Validator.isEmpty(data.city)) {
-    errors.long = "City field is required";
+  else if (Validator.isEmpty(data.city)) {
+    errors.message = "City field is required";
   }
   //Image checks
   // if (Validator.is(data.image)) {
   //   errors.long = "Image field is required";
   // }
   //Room checks
-  if (Validator.isEmpty(data.room)) {
-    errors.long = "Image field is required";
+  else if (Validator.isEmpty(data.roomNumber)) {
+    errors.message = "Room Number field is required";
+  }
+  else if (Validator.isEmpty(data.roomType)) {
+    errors.message = "Room Type field is required";
+  }
+  else if (Validator.isEmpty(data.width)) {
+    errors.message = "Width field is required";
+  }
+  else if (Validator.isEmpty(data.length)) {
+    errors.message = "Length field is required";
   }
   //Desc checks
-  if (Validator.isEmpty(data.desc)) {
-    errors.long = "Descripton field is required";
+  else if (Validator.isEmpty(data.desc)) {
+    errors.message = "Descripton field is required";
   }
-  //Type checks
-  if (Validator.isEmpty(data.type)) {
-    errors.long = "Type Room field is required";
-  }
+ 
   //Price checks
-  if (Validator.isEmpty(data.price)) {
-    errors.long = "Price field is required";
+  else if (Validator.isEmpty(data.price)) {
+    errors.message = "Price field is required";
   }
   return {
     errors,

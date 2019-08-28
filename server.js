@@ -1,11 +1,19 @@
 const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const passport = require("passport");
-const users = require("./routes/api/users");
-const dorm = require("./routes/api/dorm")
-const app = express();
-var path = require('path');
+      mongoose = require("mongoose");
+      bodyParser = require("body-parser");
+      passport = require("passport");
+      users = require("./routes/api/users");
+      dorm = require("./routes/api/dorm")
+      facilities = require('./routes/api/facilities')
+      app = express();
+      middleware = require('./config/middleware')
+      path = require('path');
+      multer = require('multer')
+      fs = require('fs-extra')
+
+
+
+
 // Bodyparser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -14,11 +22,24 @@ app.use(bodyParser.urlencoded({
 );
 app.use(express.static(path.join(__dirname, 'public')));
 
+mongoose.Promise = global.Promise
 
 // DB Config
 const dbCon = require("./config/keys")
+// const MongoClient = require('mongodb').MongoClient
+// ObjectId = require('mongodb').ObjectId
 
-// Connect to MongoDB
+// const myurl = 'mongodb://localhost:27017';
+
+// // Connect to MongoDB
+// MongoClient.connect(myurl, (err, client) => {
+//   if (err) return console.log(err)
+//   db = client.db('AbahKos') 
+//   app.listen(5000, () => {
+//     console.log('listening on 5000')
+//   })
+// })
+
 mongoose
   .connect(
     dbCon.url,
@@ -37,14 +58,15 @@ app.use(passport.initialize());
 require("./config/passport")(passport);
 
 // Routes
-app.use("/api/users", users);
-app.use("/api/dorm", dorm );
-
+app.use("/api", users);
+app.use("/api", facilities);
+app.use("/api", dorm );
 
 // Send message for default URL
 app.get('/', (req, res) => res.send('Success Bgst !'));
 
 
-const port = process.env.PORT || 8080;
+
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Server up and running on port ${port} !`));
