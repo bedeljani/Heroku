@@ -6,7 +6,6 @@ const express = require("express");
       dorm = require("./routes/api/dorm")
       facilities = require('./routes/api/facilities')
       app = express();
-      middleware = require('./config/middleware')
       path = require('path');
       multer = require('multer')
       fs = require('fs-extra')
@@ -20,25 +19,14 @@ app.use(bodyParser.urlencoded({
     extended: false
   })
 );
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/api/public/', express.static('public'))
+//app.use(express.static(path.join(__dirname, 'public')));
 
 mongoose.Promise = global.Promise
 
 // DB Config
 const dbCon = require("./config/keys")
-// const MongoClient = require('mongodb').MongoClient
-// ObjectId = require('mongodb').ObjectId
 
-// const myurl = 'mongodb://localhost:27017';
-
-// // Connect to MongoDB
-// MongoClient.connect(myurl, (err, client) => {
-//   if (err) return console.log(err)
-//   db = client.db('AbahKos') 
-//   app.listen(5000, () => {
-//     console.log('listening on 5000')
-//   })
-// })
 
 mongoose
   .connect(
@@ -52,7 +40,7 @@ mongoose
 
 
 // Passport middleware
-app.use(passport.initialize());
+//app.use(passport.initialize());
 
 // Passport config
 require("./config/passport")(passport);

@@ -30,7 +30,7 @@ const DormSchema = new Schema({
         
      
 
-  facilites: [String]
+    facilities: [String]
   ,
 
   price : {

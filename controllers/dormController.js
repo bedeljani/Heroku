@@ -1,6 +1,8 @@
 const Dorm = require('../models/Dorm');
 validateDormInput = require('../validation/dorm')
 const jwt = require('jsonwebtoken')
+const User = require('../models/User');
+const config = require('../config/config')
 
 exports.create = (req, res) =>{
     Dorm.create()
@@ -9,9 +11,20 @@ exports.create = (req, res) =>{
          if (!isValid) {
             return res.status(400).json(errors);
           }
-          console.log(req.files)
-          //const token = 
-    const newDorm = new Dorm
+          
+          const token = req.token
+          const decodedToken =  jwt.decode(token, config.key)
+          console.log(decodedToken.user._id)
+          if(decodedToken === null){
+            return res.status(400).json({ message: "Token is Null" });
+          }
+          Dorm.find({_id :decodedToken.user._id})
+         .then( user => {
+             console.log(user)
+            if (!user) {
+              return res.status(403).json({ message: "Wrong token" });
+            } 
+        const newDorm = new Dorm
               (
                 {
                     name : req.body.name, 
@@ -24,16 +37,18 @@ exports.create = (req, res) =>{
                     roomType: req.body.roomType,
                     width: req.body.width,
                     length: req.body.length, 
-                    facilites : req.body.facilites.split(', ').map((i)=>(i)),
+                    facilities : req.body.facilities.split(', ').map((i)=>(i)),
                     desc : req.body.desc, 
-                    price : req.body.price   
+                    price : req.body.price,
+                    user : decodedToken.user._id   
                 }
               );
-        
+            
                 newDorm
                 .save() 
                 .then(dorm => res.json(dorm))
                 .catch(err => console.log(err));
+            })
 }
 
 

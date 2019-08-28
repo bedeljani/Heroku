@@ -49,6 +49,7 @@ const checkToken = (req, res, next) => {
 
 router.post('/dorms', upload.array('files', 20) ,checkToken ,  dorm.create)
 router.get('/dorms', dorm.findAll)
+router.delete('/dorms/:dormId', dorm.delete)
 
 module.exports = router;
 

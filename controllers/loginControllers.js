@@ -10,7 +10,8 @@ const validateLoginInput = require("../validation/login");
 
 // Create and Save a new Facilities
 exports.create = (req, res) => {
-    const { errors, isValid } = validateLoginInput(req.body);
+    
+  const { errors, isValid } = validateLoginInput(req.body);
 
     // Check validation
     if (!isValid) {
@@ -35,13 +36,10 @@ exports.create = (req, res) => {
           // User matched
          
           // Create JWT Payload
-          const newUser = new User({
-            name: req.body.name,
-            email: req.body.email
-          });
+         
           
           const payload = {
-            newUser
+            user
                   };
 
           
@@ -50,7 +48,6 @@ exports.create = (req, res) => {
           const token = jwt.sign(payload, config.key, { expiresIn: config.token})
           const refreshToken = jwt.sign(payload, config.refresh_key, { expiresIn: config.refresh_token})
           const response = {
-           newUser,
           "token": token,
           "refreshToken": refreshToken,
     }
